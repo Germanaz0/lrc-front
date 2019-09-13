@@ -201,7 +201,7 @@ export default function Topbar() {
                         >
                             <MenuItem value={1}>1 Km</MenuItem>
                             <MenuItem value={2}>2 Km</MenuItem>
-                            <MenuItem value={5}>10 Km</MenuItem>
+                            <MenuItem value={5}>5 Km</MenuItem>
                             <MenuItem value={10}>10 Km</MenuItem>
                             <MenuItem value={25}>25 Km</MenuItem>
                             <MenuItem value={50}>50 Km</MenuItem>

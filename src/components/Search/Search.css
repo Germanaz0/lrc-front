@@ -1,3 +1,10 @@
-root {
-    flexGrow: 1;
+.root { position: absolute; top: 64px; bottom: 0; left: 0; right: 0; }
+
+.ListItems-Container {
+    padding-top: 15px;
+    padding-left: 5px;
+}
+
+.fullHeight {
+    height: 100%;
 }
