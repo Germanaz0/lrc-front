@@ -1,5 +1,10 @@
 # Find your service challenge
 
+## Installation
+
+ - Copy `.env.example` to `.env` and modify if needed.
+ - Run `npm start` and go to `http://127.0.0.1:3000`
+
 ## Backend Application
 
 The repository can be found [clicking here](https://github.com/Germanaz0/lrc-api)
