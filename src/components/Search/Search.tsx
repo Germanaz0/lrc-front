@@ -27,12 +27,27 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+interface SearchProps {
+    isLoggedIn: boolean,
+}
+
 /**
  * Search class
  * @constructor
  */
-export default function Search() {
+export default function Search(props: SearchProps) {
     const classes = useStyles();
+
+    const renderAddButton = () => {
+        if (!props.isLoggedIn) {
+            return null;
+        }
+
+        return (<Fab aria-label="Add" className={classes.fab} color="primary">
+            <AddIcon />
+        </Fab>);
+    };
+
     return (
         <div className="root">
             <Grid container spacing={0} className="fullHeight">
@@ -43,9 +58,7 @@ export default function Search() {
                     <Map />
                 </Grid>
             </Grid>
-            <Fab aria-label="Add" className={classes.fab} color="primary">
-                <AddIcon />
-            </Fab>
+            {renderAddButton()}
         </div>
     );
 }

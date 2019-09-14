@@ -16,7 +16,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
-
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -97,7 +97,12 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function Topbar() {
+interface TopbarProps {
+    isLoggedIn: boolean,
+    setDistance?: any
+}
+
+export default function Topbar(props: TopbarProps) {
     const classes = useStyles();
 
     const [values, setValues] = React.useState({
@@ -105,19 +110,37 @@ export default function Topbar() {
         search: '',
     });
 
-    function handleDistance(event: React.ChangeEvent<{ name?: string; value: unknown }>) {
+    const handleDistance = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
         setValues(oldValues => ({
             ...oldValues,
             [event.target.name as string]: event.target.value,
         }));
-    }
+    };
+
+    const renderLoginButton = () => {
+        return (
+            <Button variant="outlined" color={"inherit"} className={classes.button}>
+            <PermIdentityOutlinedIcon className={classes.leftIcon} />
+            Login
+            </Button>
+        );
+    };
+
+    const renderLogoutButton = () => {
+        return (
+            <Button variant="outlined" color={"inherit"} className={classes.button}>
+                <ExitToAppOutlinedIcon className={classes.leftIcon} />
+                Logout
+            </Button>
+        );
+    };
 
     return (
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Find Your Service
+                        {process.env.REACT_APP_NAME}
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -155,10 +178,9 @@ export default function Topbar() {
                         </Select>
                     </div>
                     <div className={classes.grow}/>
-                    <Button variant="outlined" color={"inherit"} className={classes.button}>
-                        <PermIdentityOutlinedIcon className={classes.leftIcon} />
-                        Login
-                    </Button>
+
+                    {props.isLoggedIn ? renderLogoutButton() : renderLoginButton()}
+
                 </Toolbar>
             </AppBar>
         </div>
