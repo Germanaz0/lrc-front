@@ -30,8 +30,33 @@ export interface GeoCenter {
     lng: number;
 }
 
-export default class FyiApliClient {
+export interface AuthToken {
+    access_token: string | null;
+    expires_at: string | null;
+    token_type: string | null;
+}
 
+export interface AuthResponse {
+    data: AuthToken;
+}
+
+export default class FyiApliClient {
+    auth: AuthToken = {
+        access_token: '',
+        expires_at: '',
+        token_type: '',
+    };
+
+    constructor() {
+        this.auth.access_token = localStorage.getItem('access_token');
+        this.auth.expires_at = localStorage.getItem('expires_at');
+        this.auth.token_type = localStorage.getItem('token_type');
+    }
+    /**
+     * List services index
+     * @param distance
+     * @param center
+     */
     listServices = (distance?: number, center?: GeoCenter) => {
         let lat = 0;
         let lng = 0;
@@ -45,4 +70,33 @@ export default class FyiApliClient {
         return axios.get(baseUrl)
             .then(response => response.data.data);
     };
+
+    /**
+     * Login action
+     */
+    login = (email: string, password: string) => {
+        return axios
+            .post(`${API_URL}auth/login`, {email, password});
+    };
+
+    isLoggedIn = () => {
+        if (!this.auth.access_token) {
+            return false;
+        }
+
+        return this.auth.access_token.length > 0;
+    };
+
+    storeSession = (response: any) => {
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('expires_at', response.data.expires_at);
+        localStorage.setItem('token_type', response.data.token_type);
+    };
+
+    clearSession = () => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('expires_at');
+        localStorage.removeItem('token_type');
+    };
+
 }

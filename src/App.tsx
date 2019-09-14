@@ -3,7 +3,7 @@
  *
  * @author Bortoli German <german@borto.li>
  */
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 import './App.css';
 import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location';
 import FyiApliClient from './api-clients/findservices.api';
@@ -22,7 +22,7 @@ const App: React.FC = () => {
     const [appStates, setAppStates] = useState({
         distance: 0,
         search: '',
-        isLoggedIn: false,
+        isLoggedIn: apiClient.isLoggedIn(),
         isLoading: true,
     });
 
@@ -76,7 +76,8 @@ const App: React.FC = () => {
      * Will trigger logout action
      */
     const handleLogout = () => {
-        alert("LOGOUT !!");
+        apiClient.clearSession();
+        setLoggedIn(false);
     };
 
     /**
@@ -151,7 +152,7 @@ const App: React.FC = () => {
                 center={geoCenter}
             />
 
-            <Login open={loginOpen} closeModal={handleCloseModal}/>
+            <Login open={loginOpen} closeModal={handleCloseModal} setLoggedIn={setLoggedIn}/>
         </div>
     );
 };
