@@ -1,4 +1,11 @@
-.root { position: absolute; top: 64px; bottom: 0; left: 0; right: 0; }
+.root {
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*z-index: -1;*/
+}
 
 .ListItems-Container {
     padding-top: 15px;

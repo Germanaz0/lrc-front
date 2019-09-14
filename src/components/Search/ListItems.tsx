@@ -13,6 +13,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import './Search.css';
+import {ServiceType} from "../../api-clients/findservices.api";
 
 const useStyles = makeStyles({
     card: {
@@ -43,18 +44,29 @@ interface ListItemsProps {
 export default function ListItems(props: ListItemsProps) {
     const classes = useStyles();
 
+    const handleDelete = (service: ServiceType) => {
+        console.log("Deleting service", service);
+    };
 
-    const renderCardActions = () => {
+    /**
+     * Render card actions buttons
+     */
+    const renderCardActions = (service: ServiceType) => {
         if (!props.isLoggedIn) {
             return false;
         }
         return (
             <CardActions>
                 <Button size="small">Edit</Button>
-                <Button color="secondary" size="small">Delete</Button>
+                <Button color="secondary" size="small" onClick={() => handleDelete(service)}>Delete</Button>
             </CardActions>
         );
     };
+
+    /**
+     * Render item on listing
+     * @param service
+     */
     const renderServiceItem = (service: any) => {
 
         return (
@@ -73,7 +85,7 @@ export default function ListItems(props: ListItemsProps) {
                         {service.description}
                     </Typography>
                 </CardContent>
-                {renderCardActions()}
+                {renderCardActions(service)}
             </Card>
         );
     };

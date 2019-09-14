@@ -102,10 +102,19 @@ export default class FyiApliClient {
     logout = () => {
         //auth/logout
         return axios.post(`${API_URL}auth/logout`, {},{
-            headers: this.getLoggedInHeaders()
+            headers: this.getLoggedInHeaders(),
         })
     };
 
+    /**
+     * Delete a service action
+     * @param service
+     */
+    deleteService = (service: ServiceType) => {
+        return axios.delete(`${API_URL}services/${service.id}`, {
+            headers: this.getLoggedInHeaders(),
+        });
+    };
     /**
      * Check if the user is logged in
      */
