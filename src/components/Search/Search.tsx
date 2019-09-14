@@ -28,8 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface SearchProps {
-    isLoggedIn: boolean,
-    handleAddService?: any,
+    isLoggedIn: boolean;
+    handleAddService?: any;
+    services: object[];
+    center: object;
 }
 
 /**
@@ -55,7 +57,7 @@ export default function Search(props: SearchProps) {
         <div className="root">
             <Grid container spacing={0} className="fullHeight">
                 <Grid item xs={4} className="ListItems-Container">
-                    <ListItems />
+                    <ListItems services={props.services} isLoggedIn={props.isLoggedIn} />
                 </Grid>
                 <Grid item xs={8}>
                     <Map />

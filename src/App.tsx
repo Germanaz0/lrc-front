@@ -3,22 +3,55 @@
  *
  * @author Bortoli German <german@borto.li>
  */
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './App.css';
+import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location';
 
 import Topbar from './components/Topbar/Topbar';
 import Search from './components/Search/Search';
 
+import axios from "axios";
+
+const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE || 10;
+
 const App: React.FC = () => {
 
-    const [appStates, setAppStates] = React.useState({
+    const [appStates, setAppStates] = useState({
         distance: 0,
         search: '',
         isLoggedIn: false,
         isLoading: true,
     });
 
-    // const [services, setServices] = React.useState([]);
+    const [services, setServices] = React.useState([]);
+    const [geoCenter, setGeoCenter] = useState({
+        lat: 0,
+        lng: 0,
+    });
+
+    /**
+     * API Calls
+     */
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/services').then((response) => {
+            setServices(response.data.data);
+        });
+    }, [appStates.distance, geoCenter]);
+
+    /**
+     * Geolocation enabled
+     */
+    useEffect(() => {
+        getCurrentLocation()
+            .then((data: GeoPosition) => {
+                setDistance(DEFAULT_DISTANCE.toString());
+                setGeoCenter({lat: data.coords.latitude, lng: data.coords.longitude});
+            })
+            .catch(() => {
+                // setDistance('0');
+            });
+    }, []);
+
 
     /**
      * Will trigger a modalbox to login
@@ -41,15 +74,33 @@ const App: React.FC = () => {
         alert('ADD SERVICE MODAL');
     };
 
+    /**
+     * Set distance to filter services
+     * @param distance
+     */
     const setDistance = (distance: string) => {
         console.log('Setting distance to:', distance);
-        setAppStates({ ...appStates, 'distance': parseInt(distance) });
+        setAppStates({...appStates, 'distance': parseInt(distance)});
     };
 
+    /**
+     * Set search keyword to filter services
+     * @param search
+     */
     const setSearchText = (search: string) => {
         console.log('Searching text:', search);
-        setAppStates({ ...appStates, search });
+        setAppStates({...appStates, search});
     };
+
+    /**
+     * Set logged in status
+     * @param isLoggedIn
+     */
+    const setLoggedIn = (isLoggedIn: boolean) => {
+        console.log('Setting login status:', isLoggedIn);
+        setAppStates({...appStates, isLoggedIn});
+    };
+
     /**
      * Will search by distance
      * @param event
@@ -76,9 +127,15 @@ const App: React.FC = () => {
                 handleSearch={handleSearch}
                 handleDistance={handleDistance}
             />
-            <Search isLoggedIn={appStates.isLoggedIn} handleAddService={handleAddService}/>
+
+            <Search
+                isLoggedIn={appStates.isLoggedIn}
+                handleAddService={handleAddService}
+                services={services}
+                center={geoCenter}
+            />
         </div>
     );
-}
+};
 
 export default App;
