@@ -24,6 +24,7 @@ export default function Login(props: LoginProps) {
     const [errors, setErrors] = useState();
 
     const handleClose = () => {
+        setErrors(false);
         props.closeModal();
     };
 
