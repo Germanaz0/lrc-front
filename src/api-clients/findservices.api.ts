@@ -52,6 +52,17 @@ export default class FyiApliClient {
         this.auth.expires_at = localStorage.getItem('expires_at');
         this.auth.token_type = localStorage.getItem('token_type');
     }
+
+    getLoggedInHeaders = () => {
+        if (!this.isLoggedIn()) {
+            return {};
+        }
+
+        return {
+            'Authorization': `Bearer ${this.auth.access_token}`,
+            'Accept': 'application/json',
+        };
+    };
     /**
      * List services index
      * @param distance
@@ -77,6 +88,13 @@ export default class FyiApliClient {
     login = (email: string, password: string) => {
         return axios
             .post(`${API_URL}auth/login`, {email, password});
+    };
+
+    logout = () => {
+        //auth/logout
+        return axios.get(`${API_URL}auth/logout`, {
+            headers: this.getLoggedInHeaders()
+        })
     };
 
     isLoggedIn = () => {

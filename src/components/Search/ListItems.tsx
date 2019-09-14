@@ -51,7 +51,7 @@ export default function ListItems(props: ListItemsProps) {
         return (
             <CardActions>
                 <Button size="small">Edit</Button>
-                <Button size="small">Delete</Button>
+                <Button color="secondary" size="small">Delete</Button>
             </CardActions>
         );
     };

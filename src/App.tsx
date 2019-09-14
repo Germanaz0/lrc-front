@@ -76,8 +76,10 @@ const App: React.FC = () => {
      * Will trigger logout action
      */
     const handleLogout = () => {
-        apiClient.clearSession();
-        setLoggedIn(false);
+        apiClient.logout().then(() => {
+            apiClient.clearSession();
+            setLoggedIn(false);
+        });
     };
 
     /**
