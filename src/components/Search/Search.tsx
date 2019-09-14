@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface SearchProps {
     isLoggedIn: boolean,
+    handleAddService?: any,
 }
 
 /**
@@ -43,9 +44,11 @@ export default function Search(props: SearchProps) {
             return null;
         }
 
-        return (<Fab aria-label="Add" className={classes.fab} color="primary">
-            <AddIcon />
-        </Fab>);
+        return (
+            <Fab aria-label="Add" className={classes.fab} color="primary" onClick={props.handleAddService}>
+                <AddIcon />
+            </Fab>
+        );
     };
 
     return (

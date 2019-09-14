@@ -99,27 +99,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface TopbarProps {
     isLoggedIn: boolean,
-    setDistance?: any
+    distance?: number,
+    search?: string,
+    setDistance?: any,
+    handleLogin?: any,
+    handleLogout?: any,
+    handleSearch?: any,
+    handleDistance?: any,
 }
 
 export default function Topbar(props: TopbarProps) {
     const classes = useStyles();
 
-    const [values, setValues] = React.useState({
-        distance: 0,
-        search: '',
-    });
-
-    const handleDistance = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-        setValues(oldValues => ({
-            ...oldValues,
-            [event.target.name as string]: event.target.value,
-        }));
-    };
-
     const renderLoginButton = () => {
         return (
-            <Button variant="outlined" color={"inherit"} className={classes.button}>
+            <Button onClick={props.handleLogin} variant="outlined" color={"inherit"} className={classes.button}>
             <PermIdentityOutlinedIcon className={classes.leftIcon} />
             Login
             </Button>
@@ -128,7 +122,7 @@ export default function Topbar(props: TopbarProps) {
 
     const renderLogoutButton = () => {
         return (
-            <Button variant="outlined" color={"inherit"} className={classes.button}>
+            <Button onClick={props.handleLogout} variant="outlined" color={"inherit"} className={classes.button}>
                 <ExitToAppOutlinedIcon className={classes.leftIcon} />
                 Logout
             </Button>
@@ -148,6 +142,7 @@ export default function Topbar(props: TopbarProps) {
                         </div>
                         <InputBase
                             placeholder="Search…"
+                            onChange={props.handleSearch}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
@@ -155,8 +150,8 @@ export default function Topbar(props: TopbarProps) {
                             inputProps={{'aria-label': 'search'}}
                         />
                         <Select
-                            value={values.distance}
-                            onChange={handleDistance}
+                            value={props.distance}
+                            onChange={props.handleDistance}
                             classes={{
                                 root: classes.inputRoot,
                                 select: classes.selectInput
