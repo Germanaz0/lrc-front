@@ -38,7 +38,16 @@ const App: React.FC = () => {
      * API Calls
      */
     useEffect(() => {
-        apiClient.listServices(appStates.distance, geoCenter).then((response) => setServices(response));
+        let didCancel = false;
+        async function fetchApi() {
+            const response = await apiClient.listServices(appStates.distance, geoCenter);
+            if (!didCancel) {
+                setServices(response);
+                console.log("Fetched services with distance", appStates.distance);
+            }
+        }
+        fetchApi();
+        return () => { didCancel = true; };
     }, [appStates.distance, geoCenter]);
 
     /**
