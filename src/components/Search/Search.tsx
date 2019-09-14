@@ -41,6 +41,9 @@ interface SearchProps {
 export default function Search(props: SearchProps) {
     const classes = useStyles();
 
+    /**
+     * Render add button, to add more services if you are loggedin
+     */
     const renderAddButton = () => {
         if (!props.isLoggedIn) {
             return null;

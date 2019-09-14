@@ -47,12 +47,18 @@ export default class FyiApliClient {
         token_type: '',
     };
 
+    /**
+     * Main constructor
+     */
     constructor() {
         this.auth.access_token = localStorage.getItem('access_token');
         this.auth.expires_at = localStorage.getItem('expires_at');
         this.auth.token_type = localStorage.getItem('token_type');
     }
 
+    /**
+     * Set logged in headers
+     */
     getLoggedInHeaders = () => {
         if (!this.isLoggedIn()) {
             return {};
@@ -90,27 +96,42 @@ export default class FyiApliClient {
             .post(`${API_URL}auth/login`, {email, password});
     };
 
+    /**
+     * Trigger logout
+     */
     logout = () => {
         //auth/logout
-        return axios.get(`${API_URL}auth/logout`, {
+        return axios.post(`${API_URL}auth/logout`, {},{
             headers: this.getLoggedInHeaders()
         })
     };
 
+    /**
+     * Check if the user is logged in
+     */
     isLoggedIn = () => {
         if (!this.auth.access_token) {
             return false;
         }
 
+        // @TODO: Validate if the token has been expired
+
         return this.auth.access_token.length > 0;
     };
 
+    /**
+     * Store auth response into browser session
+     * @param response
+     */
     storeSession = (response: any) => {
         localStorage.setItem('access_token', response.data.access_token);
         localStorage.setItem('expires_at', response.data.expires_at);
         localStorage.setItem('token_type', response.data.token_type);
     };
 
+    /**
+     * Clear browser session
+     */
     clearSession = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('expires_at');

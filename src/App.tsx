@@ -10,15 +10,20 @@ import FyiApliClient from './api-clients/findservices.api';
 import Topbar from './components/Topbar/Topbar';
 import Search from './components/Search/Search';
 
-import axios from "axios";
 import Login from "./components/Login/Login";
 
 const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE || 10;
 
 const App: React.FC = () => {
 
+    /**
+     * Api service client
+     */
     const apiClient = new FyiApliClient();
 
+    /**
+     * States of the app
+     */
     const [appStates, setAppStates] = useState({
         distance: 0,
         search: '',
@@ -26,21 +31,38 @@ const App: React.FC = () => {
         isLoading: true,
     });
 
+    /**
+     * Service array, fetched from the api
+     */
     const [services, setServices] = useState([]);
+
+    /**
+     * Current user geoposition
+     */
     const [geoCenter, setGeoCenter] = useState({
         lat: 0,
         lng: 0,
     });
 
+    /**
+     * Login status
+     */
     const [loginOpen, setLoginOpen] = useState(false);
 
     /**
-     * API Calls
+     * Fetch services from API
+     */
+    const refreshServices = () => {
+        return apiClient.listServices(appStates.distance, geoCenter);
+    };
+
+    /**
+     * This is used when filtering by distance and current location
      */
     useEffect(() => {
         let didCancel = false;
         async function fetchApi() {
-            const response = await apiClient.listServices(appStates.distance, geoCenter);
+            const response = await refreshServices();
             if (!didCancel) {
                 setServices(response);
                 console.log("Fetched services with distance", appStates.distance);
@@ -51,7 +73,7 @@ const App: React.FC = () => {
     }, [appStates.distance, geoCenter]);
 
     /**
-     * Geolocation enabled
+     * Geolocation: Fetch current user location
      */
     useEffect(() => {
         getCurrentLocation()
@@ -89,6 +111,9 @@ const App: React.FC = () => {
         alert('ADD SERVICE MODAL');
     };
 
+    /**
+     * Will close any modal
+     */
     const handleCloseModal = () => {
         setLoginOpen(false);
     };

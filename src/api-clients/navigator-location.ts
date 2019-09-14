@@ -20,6 +20,9 @@ export interface GeoPosition {
     timestamp: number;
 }
 
+/**
+ * Get browser position if allowed
+ */
 export function getCurrentLocation(): Promise<GeoPosition> {
     const geolocation = window.navigator.geolocation;
 

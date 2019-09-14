@@ -111,6 +111,9 @@ interface TopbarProps {
 export default function Topbar(props: TopbarProps) {
     const classes = useStyles();
 
+    /**
+     * Render the login button
+     */
     const renderLoginButton = () => {
         return (
             <Button onClick={props.handleLogin} variant="outlined" color={"inherit"} className={classes.button}>
@@ -120,6 +123,9 @@ export default function Topbar(props: TopbarProps) {
         );
     };
 
+    /**
+     * Render logout button
+     */
     const renderLogoutButton = () => {
         return (
             <Button onClick={props.handleLogout} variant="outlined" color={"inherit"} className={classes.button}>

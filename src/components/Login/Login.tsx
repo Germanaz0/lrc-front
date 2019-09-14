@@ -1,3 +1,10 @@
+/**
+ * Login component
+ *
+ * @description Handle login form actions
+ * @author Bortoli German <german@borto.li>
+ */
+
 import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -23,11 +30,17 @@ export default function Login(props: LoginProps) {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState();
 
+    /**
+     * Trigger the action to close the modal
+     */
     const handleClose = () => {
         setErrors(false);
         props.closeModal();
     };
 
+    /**
+     * Will call login API and authenticate the user if valid
+     */
     const handleLogin = () => {
         console.log("Doing login with", email);
         apiClient.login(email, password)
@@ -40,14 +53,25 @@ export default function Login(props: LoginProps) {
             });
     };
 
+    /**
+     * Event when the user is typing an email
+     * @param event
+     */
     const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
     };
 
+    /**
+     * Event when the user is typing a passsowrd
+     * @param event
+     */
     const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
 
+    /**
+     * If the API returns any error, then will display a message
+     */
     const renderError = () => {
         if (!errors) {
             return false;
