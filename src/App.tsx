@@ -6,15 +6,18 @@
 import React, {useState, useEffect, useRef} from 'react'
 import './App.css';
 import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location';
-
+import FyiApliClient from './api-clients/findservices.api';
 import Topbar from './components/Topbar/Topbar';
 import Search from './components/Search/Search';
 
 import axios from "axios";
+import Login from "./components/Login/Login";
 
 const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE || 10;
 
 const App: React.FC = () => {
+
+    const apiClient = new FyiApliClient();
 
     const [appStates, setAppStates] = useState({
         distance: 0,
@@ -23,19 +26,19 @@ const App: React.FC = () => {
         isLoading: true,
     });
 
-    const [services, setServices] = React.useState([]);
+    const [services, setServices] = useState([]);
     const [geoCenter, setGeoCenter] = useState({
         lat: 0,
         lng: 0,
     });
 
+    const [loginOpen, setLoginOpen] = useState(false);
+
     /**
      * API Calls
      */
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/services').then((response) => {
-            setServices(response.data.data);
-        });
+        apiClient.listServices(appStates.distance, geoCenter).then((response) => setServices(response));
     }, [appStates.distance, geoCenter]);
 
     /**
@@ -57,7 +60,7 @@ const App: React.FC = () => {
      * Will trigger a modalbox to login
      */
     const handleLogin = () => {
-        alert("LOGIN MODAL");
+        setLoginOpen(true);
     };
 
     /**
@@ -72,6 +75,10 @@ const App: React.FC = () => {
      */
     const handleAddService = () => {
         alert('ADD SERVICE MODAL');
+    };
+
+    const handleCloseModal = () => {
+        setLoginOpen(false);
     };
 
     /**
@@ -134,6 +141,8 @@ const App: React.FC = () => {
                 services={services}
                 center={geoCenter}
             />
+
+            <Login open={loginOpen} closeModal={handleCloseModal}/>
         </div>
     );
 };
