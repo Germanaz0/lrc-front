@@ -1,9 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/**
+ * Main Application
+ *
+ * @author Bortoli German <german@borto.li>
+ */
 
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
+import React from 'react';
+import './App.css';
 
 import Topbar from './components/Topbar/Topbar';
 import Search from './components/Search/Search';

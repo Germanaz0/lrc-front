@@ -1,21 +1,21 @@
+/**
+ * Topbar
+ *
+ * @description will render all the menus and search features on topbar.
+ * @author Bortoli German <german@borto.li>
+ */
+
 import React from 'react';
 import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
+import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -82,6 +82,12 @@ const useStyles = makeStyles((theme: Theme) =>
                 display: 'flex',
             },
         },
+        leftIcon: {
+            marginRight: theme.spacing(1),
+        },
+        button: {
+            margin: theme.spacing(1),
+        },
         sectionMobile: {
             display: 'flex',
             [theme.breakpoints.up('md')]: {
@@ -93,13 +99,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Topbar() {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const [values, setValues] = React.useState({
-        distance: '1',
+        distance: 0,
         search: '',
     });
 
@@ -109,63 +111,6 @@ export default function Topbar() {
             [event.target.name as string]: event.target.value,
         }));
     }
-
-    function handleAuthMenuOpen(event: React.MouseEvent<HTMLElement>) {
-        setAnchorEl(event.currentTarget);
-    }
-
-    function handleMobileMenuClose() {
-        setMobileMoreAnchorEl(null);
-    }
-
-    function handleMenuClose() {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    }
-
-    function handleMobileMenuOpen(event: React.MouseEvent<HTMLElement>) {
-        setMobileMoreAnchorEl(event.currentTarget);
-    }
-
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-            id={menuId}
-            keepMounted
-            transformOrigin={{vertical: 'top', horizontal: 'right'}}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Login</MenuItem>
-        </Menu>
-    );
-
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{vertical: 'top', horizontal: 'right'}}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem onClick={handleAuthMenuOpen}>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle/>
-                </IconButton>
-                <p>Login</p>
-            </MenuItem>
-        </Menu>
-    );
 
     return (
         <div className={classes.grow}>
@@ -199,6 +144,7 @@ export default function Topbar() {
                             }}
                             color="inherit"
                         >
+                            <MenuItem value={0}>Anywhere</MenuItem>
                             <MenuItem value={1}>1 Km</MenuItem>
                             <MenuItem value={2}>2 Km</MenuItem>
                             <MenuItem value={5}>5 Km</MenuItem>
@@ -206,37 +152,15 @@ export default function Topbar() {
                             <MenuItem value={25}>25 Km</MenuItem>
                             <MenuItem value={50}>50 Km</MenuItem>
                             <MenuItem value={100}>100 Km</MenuItem>
-                            <MenuItem value={0}>Anywhere</MenuItem>
                         </Select>
                     </div>
                     <div className={classes.grow}/>
-                    <div className={classes.sectionDesktop}>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleAuthMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle/>
-                        </IconButton>
-                    </div>
-                    <div className={classes.sectionMobile}>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon/>
-                        </IconButton>
-                    </div>
+                    <Button variant="outlined" color={"inherit"} className={classes.button}>
+                        <PermIdentityOutlinedIcon className={classes.leftIcon} />
+                        Login
+                    </Button>
                 </Toolbar>
             </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
         </div>
     );
 }
