@@ -15,7 +15,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 
-import FyiApliClient from '../../api-clients/findservices.api';
+import apiClient from '../../api-clients/findservices.api';
 
 interface LoginProps {
     open: boolean;
@@ -24,7 +24,6 @@ interface LoginProps {
 }
 
 export default function Login(props: LoginProps) {
-    const apiClient = new FyiApliClient();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

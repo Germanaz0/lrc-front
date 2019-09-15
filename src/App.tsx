@@ -5,7 +5,7 @@
  */
 import React, {useState, useEffect} from 'react'
 import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location';
-import FyiApliClient from './api-clients/findservices.api';
+import apiClient from './api-clients/findservices.api';
 import Topbar from './components/Topbar/Topbar';
 import Search from './components/Search/Search';
 
@@ -14,11 +14,6 @@ import Login from "./components/Login/Login";
 const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE || 10;
 
 const App: React.FC = () => {
-
-    /**
-     * Api service client
-     */
-    const apiClient = new FyiApliClient();
 
     /**
      * States of the app
@@ -108,13 +103,6 @@ const App: React.FC = () => {
     };
 
     /**
-     * Will trigger modalbox to add a service
-     */
-    const handleAddService = () => {
-        alert('ADD SERVICE MODAL');
-    };
-
-    /**
      * Will close any modal
      */
     const handleCloseModal = () => {
@@ -177,7 +165,6 @@ const App: React.FC = () => {
 
             <Search
                 isLoggedIn={appStates.isLoggedIn}
-                handleAddService={handleAddService}
                 services={services}
                 center={geoCenter}
                 refreshServices={updateServicesList}

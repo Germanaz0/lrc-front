@@ -19,6 +19,7 @@ interface ListItemsProps {
     services: object[];
     isLoggedIn: boolean;
     setDeleteService: any;
+    editService: any;
 }
 /**
  * List items class
@@ -36,7 +37,7 @@ export default function ListItems(props: ListItemsProps) {
         }
         return (
             <CardActions>
-                <Button size="small">Edit</Button>
+                <Button size="small" onClick={() => props.editService(service)}>Edit</Button>
                 <Button color="secondary" size="small" onClick={() => props.setDeleteService(service)}>Delete</Button>
             </CardActions>
         );

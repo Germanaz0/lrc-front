@@ -14,10 +14,10 @@ import Fab from '@material-ui/core/Fab';
 import DeleteService from '../DeleteService/DeleteService';
 
 import useStyles from './Search.styles';
+import AddService from "../AddService/AddService";
 
 interface SearchProps {
     isLoggedIn: boolean;
-    handleAddService?: any;
     services: object[];
     center: object;
     refreshServices: any;
@@ -31,6 +31,24 @@ export default function Search(props: SearchProps) {
     const classes = useStyles();
 
     const [deleteService, setDeleteService] = useState();
+    const [serviceFormValues, setServiceFormValues] = useState();
+
+    const handleAddService = () => {
+        setServiceFormValues(
+            {
+                id: 0,
+                title: '',
+                description: '',
+                address: '',
+                city: '',
+                state: '',
+                zip_code: '',
+                geolocation: {},
+
+            }
+        );
+    };
+
     /**
      * Render add button, to add more services if you are loggedin
      */
@@ -40,7 +58,7 @@ export default function Search(props: SearchProps) {
         }
 
         return (
-            <Fab aria-label="Add" className={classes.fab} color="primary" onClick={props.handleAddService}>
+            <Fab aria-label="Add" className={classes.fab} color="primary" onClick={handleAddService}>
                 <AddIcon />
             </Fab>
         );
@@ -50,14 +68,30 @@ export default function Search(props: SearchProps) {
         <div className={classes.root}>
             <Grid container spacing={0} className={classes.fullHeight}>
                 <Grid item xs={4} className={classes.listItemContainer}>
-                    <ListItems services={props.services} isLoggedIn={props.isLoggedIn} setDeleteService={setDeleteService}/>
+                    <ListItems
+                        services={props.services}
+                        isLoggedIn={props.isLoggedIn}
+                        setDeleteService={setDeleteService}
+                        editService={setServiceFormValues}
+                    />
                 </Grid>
                 <Grid item xs={8}>
                     <Map />
                 </Grid>
             </Grid>
+
             {renderAddButton()}
-            <DeleteService service={deleteService} setDeleteService={setDeleteService} refreshServices={props.refreshServices}/>
+
+            <DeleteService
+                service={deleteService}
+                setDeleteService={setDeleteService}
+                refreshServices={props.refreshServices}
+            />
+
+            <AddService
+                service={serviceFormValues}
+                setServiceFormValues={setServiceFormValues}
+            />
         </div>
     );
 }

@@ -40,7 +40,7 @@ export interface AuthResponse {
     data: AuthToken;
 }
 
-export default class FyiApliClient {
+export class FindYourServiceApiClient {
     auth: AuthToken = {
         access_token: '',
         expires_at: '',
@@ -148,3 +148,5 @@ export default class FyiApliClient {
     };
 
 }
+const apiClient = new FindYourServiceApiClient();
+export default apiClient;

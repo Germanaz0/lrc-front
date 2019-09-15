@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FyiApliClient, {ServiceType} from "../../api-clients/findservices.api";
+import apiClient, {ServiceType} from "../../api-clients/findservices.api";
 
 interface DeleteProps {
     service?: ServiceType,
@@ -14,7 +14,6 @@ interface DeleteProps {
 }
 
 export default function DeleteService(props: DeleteProps) {
-    const apiClient = new FyiApliClient();
     const { service } = props;
 
     const [isLoading, setIsLoading] = useState(false);
