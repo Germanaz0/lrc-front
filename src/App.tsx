@@ -4,7 +4,6 @@
  * @author Bortoli German <german@borto.li>
  */
 import React, {useState, useEffect} from 'react'
-import './App.css';
 import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location';
 import FyiApliClient from './api-clients/findservices.api';
 import Topbar from './components/Topbar/Topbar';

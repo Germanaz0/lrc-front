@@ -13,9 +13,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
 
 import FyiApliClient from '../../api-clients/findservices.api';
-import './Login.css';
 
 interface LoginProps {
     open: boolean;
@@ -78,9 +78,9 @@ export default function Login(props: LoginProps) {
         }
 
         return (
-            <p className="error-container">
-            The email or password is not valid, try again !
-            </p>
+            <Typography color="error">
+                The email or password is not valid, try again !
+            </Typography>
         );
     };
 

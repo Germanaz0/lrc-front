@@ -6,15 +6,16 @@
  */
 
 import React from 'react';
-import './Search.css';
+import useStyles from './Search.styles';
 
 /**
  * Child component of search
  * @constructor
  */
 export default function Map() {
+    const classes = useStyles();
     return (
-        <div className="map">
+        <div className={classes.map}>
             MAP
         </div>
     );
