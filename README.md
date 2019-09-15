@@ -3,6 +3,7 @@
 ## Installation
 
  - Copy `.env.example` to `.env` and modify if needed.
+ - You may need a Google maps api key, it was provided in an email, or you can generate one [clicking here](https://developers.google.com/maps/documentation/javascript/get-api-key)
  - Run `npm start` and go to `http://127.0.0.1:3000`
 
 User credentials: `tester@lrc.example.com/password` 

@@ -46,6 +46,9 @@ export default function AddService(props: AddServiceProps) {
     const [geolocation, setGeolocation] = useState({lat: 0, lng: 0});
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    /**
+     * When the component has been loaded, we extract the latitude and longitude
+     */
     useEffect(() => {
         setValues(service);
 
@@ -61,6 +64,10 @@ export default function AddService(props: AddServiceProps) {
         return null;
     }
 
+    /**
+     * Extract input values and store to state
+     * @param name
+     */
     const handleChange = (name: any) => (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!values) {
             return null;
@@ -74,10 +81,16 @@ export default function AddService(props: AddServiceProps) {
         }
     };
 
+    /**
+     * Close the modal box
+     */
     const handleClose = () => {
         props.setServiceFormValues(null);
     };
 
+    /**
+     * Process the values and make an api call
+     */
     const handleSubmit = () => {
 
         if (isLoading) {
@@ -99,9 +112,18 @@ export default function AddService(props: AddServiceProps) {
         });
     };
 
+    /**
+     * Render input error message.
+     * @param name
+     */
     const getInputErrorMessage = (name: string) => {
         return _objectGet(formErrors, name, []).join(', ');
     };
+
+    /**
+     * Check if an input has an error
+     * @param name
+     */
     const checkErrorOnInput = (name: string) => {
         return getInputErrorMessage(name) ? true : false;
     };
