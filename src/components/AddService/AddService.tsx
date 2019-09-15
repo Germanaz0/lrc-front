@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import { TransitionProps } from '@material-ui/core/transitions';
+import {TransitionProps} from '@material-ui/core/transitions';
 import useStyles from './AddService.styles';
 import apiClient, {ServiceType} from "../../api-clients/findservices.api";
 import {TextField} from "@material-ui/core";
@@ -44,15 +44,14 @@ export default function AddService(props: AddServiceProps) {
     const [values, setValues] = useState<ServiceType>();
     const [formErrors, setFormErrors] = useState([]);
     const [geolocation, setGeolocation] = useState({lat: 0, lng: 0});
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         setValues(service);
 
         if (service) {
-            // const lat = _objectGet(service, 'geolocation.coordinates[0]', 0);
-            // const lng = _objectGet(service, 'geolocation.coordinates[1]', 0);
-            const lat = service.geolocation.coordinates[1];
-            const lng = service.geolocation.coordinates[0];
+            const lng = _objectGet(service, 'geolocation.coordinates[0]', 0);
+            const lat = _objectGet(service, 'geolocation.coordinates[1]', 0);
             setGeolocation({lat, lng});
         }
 
@@ -67,28 +66,36 @@ export default function AddService(props: AddServiceProps) {
             return null;
         }
 
+        const inputValue = _objectGet(event, 'target.value');
         if (name === 'lat' || name === 'lng') {
-            setGeolocation({ ...geolocation, [name]: event.target.value });
+            setGeolocation({...geolocation, [name]: inputValue});
         } else {
-            setValues({ ...values, [name]: event.target.value });
+            setValues({...values, [name]: inputValue});
         }
-
     };
 
-    const handleClose = () =>{
+    const handleClose = () => {
         props.setServiceFormValues(null);
     };
 
     const handleSubmit = () => {
+
+        if (isLoading) {
+            return false;
+        }
+
+        setIsLoading(true);
+
         const formData = Object.assign({}, values, {geolocation});
         apiClient.createOrUpdate(formData).then((response) => {
             props.refreshServices().then(() => {
                 handleClose();
             });
-
         }).catch((error) => {
             const errors = _objectGet(error, 'response.data.errors', []);
             setFormErrors(errors);
+        }).finally(() => {
+            setIsLoading(false);
         });
     };
 
@@ -104,13 +111,13 @@ export default function AddService(props: AddServiceProps) {
             <Dialog fullScreen open={true} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar} color={service.id > 0 ? 'secondary' : 'primary'}>
                     <Toolbar>
-                        <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                            <CloseIcon />
+                        <IconButton disabled={isLoading} edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                            <CloseIcon/>
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
                             {service.id > 0 ? 'Edit Service' : 'Add Service'}
                         </Typography>
-                        <Button color="inherit" onClick={handleSubmit}>
+                        <Button disabled={isLoading} color="inherit" onClick={handleSubmit}>
                             {service.id > 0 ? 'Update' : 'Create'}
                         </Button>
                     </Toolbar>
@@ -299,9 +306,6 @@ export default function AddService(props: AddServiceProps) {
                             />
                         </Grid>
                     </Grid>
-
-
-
                 </form>
             </Dialog>
         </div>

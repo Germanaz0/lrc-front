@@ -5,6 +5,7 @@
  * @author Bortoli German <german@borto.li>
  */
 import axios from 'axios';
+import {ReactText} from "react";
 const API_URL = process.env.REACT_APP_API_SERVICES_URL;
 
 export interface GeolocationPoint {
@@ -13,8 +14,8 @@ export interface GeolocationPoint {
 }
 
 export interface GeolocationFormPoint {
-    lat: number | string;
-    lng: number | string;
+    lat: number | string | ReactText;
+    lng: number | string | ReactText;
 }
 
 export interface ServiceType {
@@ -36,8 +37,8 @@ export interface ServiceTypeForm extends Omit<ServiceType, 'geolocation'>{
 }
 
 export interface GeoCenter {
-    lat: number;
-    lng: number;
+    lat: number | string | ReactText;
+    lng: number | string | ReactText;
 }
 
 export interface AuthToken {
@@ -85,8 +86,8 @@ export class FindYourServiceApiClient {
      * @param center
      */
     listServices = (distance?: number, center?: GeoCenter) => {
-        let lat = 0;
-        let lng = 0;
+        let lat : number | string | ReactText = 0;
+        let lng : number | string | ReactText = 0;
 
         if (center) {
             lat = center.lat;

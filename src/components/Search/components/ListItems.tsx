@@ -28,6 +28,7 @@ interface ListItemsProps {
 export default function ListItems(props: ListItemsProps) {
     const classes = useStyles();
 
+    const bull = <span className={classes.bullet}>•</span>;
     /**
      * Render card actions buttons
      */
@@ -53,13 +54,13 @@ export default function ListItems(props: ListItemsProps) {
             <Card key={service.id.toString()} className={classes.card}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {service.city}
+                        {service.country} {bull} {service.city} {bull} {service.state}
                     </Typography>
                     <Typography variant="h5" component="h2">
                         {service.title}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {service.address}
+                        {service.address} {bull} {service.zip_code}
                     </Typography>
                     <Typography variant="body2" component="p">
                         {service.description}

@@ -34,8 +34,8 @@ const App: React.FC = () => {
      * Current user geoposition
      */
     const [geoCenter, setGeoCenter] = useState({
-        lat: 0,
-        lng: 0,
+        lat: localStorage.getItem('center_lat')  || 0,
+        lng: localStorage.getItem('center_lng') || 0,
     });
 
     /**
@@ -77,6 +77,8 @@ const App: React.FC = () => {
         getCurrentLocation()
             .then((data: GeoPosition) => {
                 setDistance(DEFAULT_DISTANCE.toString());
+                localStorage.setItem('center_lat', data.coords.latitude.toString());
+                localStorage.setItem('center_lng', data.coords.longitude.toString());
                 setGeoCenter({lat: data.coords.latitude, lng: data.coords.longitude});
             })
             .catch(() => {
