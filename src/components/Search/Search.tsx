@@ -7,8 +7,8 @@
 
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import ListItems from './ListItems';
-import Map from './Map';
+import ListItems from './components/ListItems';
+import Map from './components/Map';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 

@@ -11,9 +11,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {ServiceType} from "../../api-clients/findservices.api";
+import {ServiceType} from "../../../api-clients/findservices.api";
 
-import useStyles from './Search.styles';
+import useStyles from '../Search.styles';
 
 interface ListItemsProps {
     services: object[];

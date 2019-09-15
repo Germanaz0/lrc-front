@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import useStyles from './Search.styles';
+import useStyles from '../Search.styles';
 
 /**
  * Child component of search
