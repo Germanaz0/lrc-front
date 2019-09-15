@@ -18,6 +18,7 @@ import useStyles from '../Search.styles';
 interface ListItemsProps {
     services: object[];
     isLoggedIn: boolean;
+    setDeleteService: any;
 }
 /**
  * List items class
@@ -25,10 +26,6 @@ interface ListItemsProps {
  */
 export default function ListItems(props: ListItemsProps) {
     const classes = useStyles();
-
-    const handleDelete = (service: ServiceType) => {
-        console.log("Deleting service", service);
-    };
 
     /**
      * Render card actions buttons
@@ -40,7 +37,7 @@ export default function ListItems(props: ListItemsProps) {
         return (
             <CardActions>
                 <Button size="small">Edit</Button>
-                <Button color="secondary" size="small" onClick={() => handleDelete(service)}>Delete</Button>
+                <Button color="secondary" size="small" onClick={() => props.setDeleteService(service)}>Delete</Button>
             </CardActions>
         );
     };

@@ -5,12 +5,13 @@
  * @author Bortoli German <german@borto.li>
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import ListItems from './components/ListItems';
 import Map from './components/Map';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import DeleteService from '../DeleteService/DeleteService';
 
 import useStyles from './Search.styles';
 
@@ -19,6 +20,7 @@ interface SearchProps {
     handleAddService?: any;
     services: object[];
     center: object;
+    refreshServices: any;
 }
 
 /**
@@ -28,6 +30,7 @@ interface SearchProps {
 export default function Search(props: SearchProps) {
     const classes = useStyles();
 
+    const [deleteService, setDeleteService] = useState();
     /**
      * Render add button, to add more services if you are loggedin
      */
@@ -47,13 +50,14 @@ export default function Search(props: SearchProps) {
         <div className={classes.root}>
             <Grid container spacing={0} className={classes.fullHeight}>
                 <Grid item xs={4} className={classes.listItemContainer}>
-                    <ListItems services={props.services} isLoggedIn={props.isLoggedIn} />
+                    <ListItems services={props.services} isLoggedIn={props.isLoggedIn} setDeleteService={setDeleteService}/>
                 </Grid>
                 <Grid item xs={8}>
                     <Map />
                 </Grid>
             </Grid>
             {renderAddButton()}
+            <DeleteService service={deleteService} setDeleteService={setDeleteService} refreshServices={props.refreshServices}/>
         </div>
     );
 }

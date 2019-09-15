@@ -55,6 +55,10 @@ const App: React.FC = () => {
         return apiClient.listServices(appStates.distance, geoCenter);
     };
 
+    const updateServicesList = () => {
+        return refreshServices().then((services) => setServices(services));
+    };
+
     /**
      * This is used when filtering by distance and current location
      */
@@ -176,6 +180,7 @@ const App: React.FC = () => {
                 handleAddService={handleAddService}
                 services={services}
                 center={geoCenter}
+                refreshServices={updateServicesList}
             />
 
             <Login open={loginOpen} closeModal={handleCloseModal} setLoggedIn={setLoggedIn}/>
