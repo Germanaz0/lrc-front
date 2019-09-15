@@ -40,6 +40,7 @@ export default function Search(props: SearchProps) {
                 title: '',
                 description: '',
                 address: '',
+                country: '',
                 city: '',
                 state: '',
                 zip_code: '',
@@ -94,6 +95,7 @@ export default function Search(props: SearchProps) {
             <AddService
                 service={serviceFormValues}
                 setServiceFormValues={setServiceFormValues}
+                refreshServices={props.refreshServices}
             />
         </div>
     );

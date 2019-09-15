@@ -12,6 +12,11 @@ export interface GeolocationPoint {
     coordinates: number[];
 }
 
+export interface GeolocationFormPoint {
+    lat: number | string;
+    lng: number | string;
+}
+
 export interface ServiceType {
     id: number;
     created_at: string;
@@ -19,10 +24,15 @@ export interface ServiceType {
     title: string;
     description?: string;
     address: string;
+    country: string;
     city: string;
     state: string;
     zip_code: string;
     geolocation: GeolocationPoint;
+}
+
+export interface ServiceTypeForm extends Omit<ServiceType, 'geolocation'>{
+    geolocation: GeolocationFormPoint;
 }
 
 export interface GeoCenter {
@@ -115,6 +125,39 @@ export class FindYourServiceApiClient {
             headers: this.getLoggedInHeaders(),
         });
     };
+
+    /**
+     * Update a service
+     * @param service
+     */
+    updateService = (service: ServiceTypeForm) => {
+        return axios.patch(`${API_URL}services/${service.id}`, service, {
+            headers: this.getLoggedInHeaders(),
+        });
+    };
+
+    /**
+     * Update a service
+     * @param service
+     */
+    createService = (service: ServiceTypeForm) => {
+        return axios.post(`${API_URL}services`, service, {
+            headers: this.getLoggedInHeaders(),
+        });
+    };
+
+    /**
+     * Create or update a service
+     * @param service
+     */
+    createOrUpdate = (service: ServiceTypeForm) => {
+        if (service.id && service.id > 0) {
+            return this.updateService(service);
+        }
+
+        return this.createService(service);
+    };
+
     /**
      * Check if the user is logged in
      */
@@ -136,6 +179,10 @@ export class FindYourServiceApiClient {
         localStorage.setItem('access_token', response.data.access_token);
         localStorage.setItem('expires_at', response.data.expires_at);
         localStorage.setItem('token_type', response.data.token_type);
+
+        this.auth.access_token = response.data.access_token;
+        this.auth.expires_at = response.data.expires_at;
+        this.auth.token_type = response.data.token_type;
     };
 
     /**
@@ -145,6 +192,10 @@ export class FindYourServiceApiClient {
         localStorage.removeItem('access_token');
         localStorage.removeItem('expires_at');
         localStorage.removeItem('token_type');
+
+        this.auth.access_token = null;
+        this.auth.expires_at = null;
+        this.auth.token_type = null;
     };
 
 }
