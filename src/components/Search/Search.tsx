@@ -43,7 +43,10 @@ export default function Search(props: SearchProps) {
                 city: '',
                 state: '',
                 zip_code: '',
-                geolocation: {},
+                geolocation: {
+                    type: 'Point',
+                    coordinates: [0, 0],
+                },
 
             }
         );
