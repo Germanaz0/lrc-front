@@ -15,10 +15,11 @@ import DeleteService from '../DeleteService/DeleteService';
 
 import useStyles from './Search.styles';
 import AddService from "../AddService/AddService";
+import {ServiceType} from "../../api-clients/findservices.api";
 
 interface SearchProps {
     isLoggedIn: boolean;
-    services: object[];
+    services: ServiceType[];
     center: object;
     refreshServices: any;
 }
@@ -80,7 +81,7 @@ export default function Search(props: SearchProps) {
                     />
                 </Grid>
                 <Grid item xs={8}>
-                    <Map />
+                    <Map center={props.center} services={props.services}/>
                 </Grid>
             </Grid>
 
