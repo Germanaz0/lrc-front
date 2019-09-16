@@ -14,6 +14,8 @@ export default makeStyles((theme: Theme) =>
             paddingLeft: 5,
             height: '100%',
             overflowY: 'auto',
+            boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)',
+            zIndex: 1,
         },
         fullHeight: {
             height: '100%',
