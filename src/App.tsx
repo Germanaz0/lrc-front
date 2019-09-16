@@ -8,10 +8,12 @@ import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location'
 import apiClient from './api-clients/findservices.api';
 import Topbar from './components/Topbar/Topbar';
 import Search from './components/Search/Search';
-
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Login from "./components/Login/Login";
+import appThemeOptions, {AppTheme} from './utils/app-theme';
 
 const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE || 10;
+const OPTION_THEME = process.env.REACT_APP_THEME || 'blue';
 
 const App: React.FC = () => {
 
@@ -155,8 +157,9 @@ const App: React.FC = () => {
         setSearchText(event.target.value);
     };
 
+    const muiTheme = createMuiTheme(appThemeOptions[OPTION_THEME]);
     return (
-        <div className="App">
+        <MuiThemeProvider theme={muiTheme}>
             <Topbar
                 isLoggedIn={appStates.isLoggedIn}
                 distance={appStates.distance}
@@ -175,7 +178,7 @@ const App: React.FC = () => {
             />
 
             <Login open={loginOpen} closeModal={handleCloseModal} setLoggedIn={setLoggedIn}/>
-        </div>
+        </MuiThemeProvider>
     );
 };
 
