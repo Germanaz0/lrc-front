@@ -56,7 +56,6 @@ export default function GeoCodeField(props: GeoFieldProps) {
 
     return (
         <TextField
-            required
             label="Search address"
             placeholder="Eg, Saint Collins, New York ..."
             fullWidth

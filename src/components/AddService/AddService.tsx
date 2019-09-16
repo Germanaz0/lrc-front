@@ -4,7 +4,7 @@
  * @description Modify or add a new service
  * @author Bortoli German <german@borto.li>
  */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Grid from '@material-ui/core/Grid';
@@ -42,11 +42,21 @@ export default function AddService(props: AddServiceProps) {
     const {service} = props;
 
     const classes = useStyles();
-    const [values, setValues] = useState<ServiceType>();
+    const [values, setValues] = useState<ServiceType|any>();
     const [formErrors, setFormErrors] = useState([]);
     const [geolocation, setGeolocation] = useState({lat: 0, lng: 0});
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const valuesRef = useRef();
 
+    /**
+     * This magic trick will allow us to fetch the values into user callbacks
+     * @url https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
+     */
+    useEffect(() => {
+        if (values) {
+            valuesRef.current = values; // Write it to the ref
+        }
+    });
     /**
      * When the component has been loaded, we extract the latitude and longitude
      */
@@ -102,6 +112,7 @@ export default function AddService(props: AddServiceProps) {
 
         const formData = Object.assign({}, values, {geolocation});
         apiClient.createOrUpdate(formData).then((response) => {
+            setFormErrors([]);
             props.refreshServices().then(() => {
                 handleClose();
             });
@@ -178,13 +189,8 @@ export default function AddService(props: AddServiceProps) {
 
         currentState['address'] = `${streetParts['name']} ${streetParts['number']}`;
 
-        /**
-         * @TODO: Fix this error, we can't set the values because they are the old ones :(
-         */
-
-        // _forEach(currentState, (value: string, name: string) => {
-        //     setValues({...values, ...{[name]: value}});
-        // });
+        const newState = Object.assign({}, valuesRef.current, currentState);
+        setValues(newState);
     };
 
     return (
