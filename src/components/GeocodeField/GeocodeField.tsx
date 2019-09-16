@@ -37,11 +37,23 @@ export default function GeoCodeField(props: GeoFieldProps) {
         });
     };
 
+    /**
+     * Initialize component
+     */
     useEffect(() => {
         if (anchorEl) {
             initializeGoogleMapService(anchorEl);
         }
+
+        // When umounting will remove listener
+        return () => {
+            if (autocompleteListener) {
+                google.maps.event.removeListener(autocompleteListener);
+            }
+        }
+
     }, [anchorEl]);
+
     return (
         <TextField
             required
