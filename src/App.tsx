@@ -10,12 +10,13 @@ import Topbar from './components/Topbar/Topbar';
 import Search from './components/Search/Search';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Login from "./components/Login/Login";
-import appThemeOptions, {AppTheme} from './utils/app-theme';
+import appThemeOptions from './utils/app-theme';
+import AppSnackbar from "./components/AppSnackBar/AppSnackBar";
 
 const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE || 10;
 const OPTION_THEME = process.env.REACT_APP_THEME || 'blue';
 
-const App: React.FC = () => {
+export default function App() {
 
     /**
      * States of the app
@@ -178,8 +179,8 @@ const App: React.FC = () => {
             />
 
             <Login open={loginOpen} closeModal={handleCloseModal} setLoggedIn={setLoggedIn}/>
+
+            <AppSnackbar />
         </MuiThemeProvider>
     );
 };
-
-export default App;

@@ -14,16 +14,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
-
 import apiClient from '../../api-clients/findservices.api';
+import {connect} from 'react-redux';
+import {snackBarHide, snackBarShow} from "../../redux/actions/snackbar.action";
+import {SnackBarFeedbackType} from "../../redux/action.types";
 
 interface LoginProps {
     open: boolean;
     closeModal?: any;
     setLoggedIn: any;
+    showSnackbar?: (message: string, type: SnackBarFeedbackType) => void,
 }
 
-export default function Login(props: LoginProps) {
+function Login(props: LoginProps) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -52,6 +55,11 @@ export default function Login(props: LoginProps) {
             .then((response) => {
                 apiClient.storeSession(response);
                 props.setLoggedIn(true);
+
+                if (props.showSnackbar) {
+                    props.showSnackbar('You are now logged in', SnackBarFeedbackType.success);
+                }
+
                 handleClose();
             }).catch((error) => {
                 setErrors(true);
@@ -137,3 +145,14 @@ export default function Login(props: LoginProps) {
         </div>
     );
 }
+
+
+const mapStateToProps = (state: any) => ({
+
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    showSnackbar: (message: string, type: SnackBarFeedbackType) => dispatch(snackBarShow(message, type)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
