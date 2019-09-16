@@ -23,6 +23,7 @@ export default function Map(props: MapProps) {
 
     const {center} = props;
     let map: any = null;
+    let centerCircle: any = null;
     let markers = [];
 
     /**
@@ -66,10 +67,22 @@ export default function Map(props: MapProps) {
 
     const generateMap = () => {
         map = new google.maps.Map(document.getElementById('services-map'), {
-            center: {lat: center.lat, lng: center.lng},
+            center,
             zoom: 15,
             maptypeId: 'roadmap',
             disableDefaultUI: true,
+        });
+
+        // Add circle on user current location
+        centerCircle = new google.maps.Circle({
+            strokeColor: '#39d8ff',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#39d8ff',
+            fillOpacity: 0.5,
+            map: map,
+            center,
+            radius: 100
         });
 
         setTimeout(() => {
