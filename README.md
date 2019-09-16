@@ -5,13 +5,32 @@
  - Clone the repo `git clone https://github.com/Germanaz0/lrc-front.git`
  - Install deps `cd lrc-front && npm install`
  - Copy `.env.example` to `.env` and modify if needed.
- - You may need a Google maps api key, it was provided in an email, or you can generate one [clicking here](https://developers.google.com/maps/documentation/javascript/get-api-key)
+ - You may need a Google maps api key, it was provided in the email, or you can generate one by [clicking here](https://developers.google.com/maps/documentation/javascript/get-api-key)
  - Run `npm start` and go to `http://127.0.0.1:3000`
 
 User credentials: `tester@lrc.example.com/password` 
 ## Backend Application
 
 The repository can be found [clicking here](https://github.com/Germanaz0/lrc-api)
+
+
+## Screenshots
+
+**Homepage**: Guest user
+![Home : LoggedIn](./docs/screenshots/screenshot-home-guest.png)
+
+**Login Page**: Login page
+![Home : LoggedIn](./docs/screenshots/screenshot-login-form.png)
+
+**Homepage**: User is authenticated
+![Home : LoggedIn](./docs/screenshots/screenshot-home-loggedin.png)
+
+**Delete Dialog**: When authenticated user deletes a service
+![Home : LoggedIn](./docs/screenshots/screenshot-delete-service.png)
+
+
+**Edit Service**: When authenticated edit a service (with google autocomplete)
+![Home : LoggedIn](./docs/screenshots/screenshot-edit-service-ac.png)
 
 ## Available Scripts
 
@@ -49,22 +68,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-
-## Screenshots
-
-**Homepage**: Guest user
-![Home : LoggedIn](./docs/screenshots/screenshot-home-guest.png)
-
-**Login Page**: Login page
-![Home : LoggedIn](./docs/screenshots/screenshot-login-form.png)
-
-**Homepage**: User is authenticated
-![Home : LoggedIn](./docs/screenshots/screenshot-home-loggedin.png)
-
-**Delete Dialog**: When authenticated user deletes a service
-![Home : LoggedIn](./docs/screenshots/screenshot-delete-service.png)
-
-
-**Edit Service**: When authenticated edit a service (with google autocomplete)
-![Home : LoggedIn](./docs/screenshots/screenshot-edit-service-ac.png)
