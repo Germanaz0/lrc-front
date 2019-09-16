@@ -57,7 +57,7 @@ function Login(props: LoginProps) {
                 props.setLoggedIn(true);
 
                 if (props.showSnackbar) {
-                    props.showSnackbar('LOGGED IN !', SnackBarFeedbackType.info);
+                    props.showSnackbar('You are now logged in', SnackBarFeedbackType.success);
                 }
 
                 handleClose();

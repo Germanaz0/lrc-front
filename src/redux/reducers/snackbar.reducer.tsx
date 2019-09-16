@@ -7,7 +7,6 @@ const defaultSnackbar: SnackBarActionType = {
 };
 
 export default (state = defaultSnackbar, action: any) => {
-    console.log(action);
     switch (action.type) {
         case SNACKBAR_SHOW:
         case SNACKBAR_HIDE:

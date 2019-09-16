@@ -1,3 +1,10 @@
+/**
+ * Application Snackbar
+ *
+ * @description Will render snackbars on some actions
+ * @author Bortoli German <german@borto.li>
+ */
+
 import React, {SyntheticEvent} from 'react';
 import clsx from 'clsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
