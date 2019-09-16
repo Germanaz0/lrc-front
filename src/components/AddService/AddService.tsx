@@ -133,7 +133,7 @@ export default function AddService(props: AddServiceProps) {
         const currentState = Object.assign({}, values);
 
         const streetParts = {number: '', name: ''};
-        console.log(geoplace);
+
         geoplace.address_components.forEach((el: any) => {
 
             if (el.types.includes('street_number')) {
