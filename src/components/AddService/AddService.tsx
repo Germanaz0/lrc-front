@@ -18,8 +18,9 @@ import {TransitionProps} from '@material-ui/core/transitions';
 import useStyles from './AddService.styles';
 import apiClient, {ServiceType} from "../../api-clients/findservices.api";
 import {TextField} from "@material-ui/core";
-
+import GeoCodeField from "../GeocodeField/GeocodeField";
 const _objectGet = require('lodash/get');
+
 
 const Transition = React.forwardRef<unknown, TransitionProps>(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -51,13 +52,6 @@ export default function AddService(props: AddServiceProps) {
      */
     useEffect(() => {
         setValues(service);
-
-        if (service) {
-            const lng = _objectGet(service, 'geolocation.coordinates[0]', 0);
-            const lat = _objectGet(service, 'geolocation.coordinates[1]', 0);
-            setGeolocation({lat, lng});
-        }
-
     }, [service]);
 
     if (!service) {
@@ -128,6 +122,50 @@ export default function AddService(props: AddServiceProps) {
         return getInputErrorMessage(name) ? true : false;
     };
 
+    /**
+     * When the autocomplete field is triggered then we process the values
+     * @param data
+     */
+    const onAutocompleted = (geoplace: any) => {
+        const lat : number = geoplace.geometry.location.lat();
+        const lng : number = geoplace.geometry.location.lng();
+        setGeolocation({lat, lng });
+        const currentState = Object.assign({}, values);
+
+        const streetParts = {number: '', name: ''};
+        console.log(geoplace);
+        geoplace.address_components.forEach((el: any) => {
+
+            if (el.types.includes('street_number')) {
+                streetParts['number'] = el.long_name;
+            }
+
+            if (el.types.includes('route')) {
+                streetParts['name'] = el.long_name;
+            }
+
+            if (el.types.includes('locality')) {
+                currentState['city'] = el.long_name;
+            }
+
+            if (el.types.includes('administrative_area_level_1')) {
+                currentState['state'] = el.long_name;
+            }
+
+            if (el.types.includes('country')) {
+                currentState['country'] = el.long_name;
+            }
+
+            if (el.types.includes('postal_code')) {
+                currentState['zip_code'] = el.long_name;
+            }
+        });
+
+        currentState['address'] = `${streetParts['name']} ${streetParts['number']}`;
+
+        setValues(currentState);
+    };
+
     return (
         <div>
             <Dialog fullScreen open={true} onClose={handleClose} TransitionComponent={Transition}>
@@ -183,6 +221,8 @@ export default function AddService(props: AddServiceProps) {
                             shrink: true,
                         }}
                     />
+
+                    <GeoCodeField onAutocompleted={onAutocompleted} />
 
                     <TextField
                         id="service-address"
