@@ -79,10 +79,12 @@ export default function Topbar(props: TopbarProps) {
                         />
                         <Select
                             value={props.distance}
+                            disableUnderline={true}
                             onChange={props.handleDistance}
                             classes={{
                                 root: classes.inputRoot,
-                                select: classes.selectInput
+                                select: classes.selectInput,
+                                icon: classes.fillSelectColor,
                             }}
                             inputProps={{
                                 name: 'distance',

@@ -68,6 +68,9 @@ export default makeStyles((theme: Theme) =>
         leftIcon: {
             marginRight: theme.spacing(1),
         },
+        fillSelectColor: {
+            fill: 'white',
+        },
         button: {
             margin: theme.spacing(1),
         },
