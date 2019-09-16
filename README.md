@@ -51,7 +51,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Screenshots
 
-**Homepage**: User is authenticated
+**Homepage**: Guest user
 ![Home : LoggedIn](./docs/screenshots/screenshot-home-guest.png)
 
 **Login Page**: Login page
