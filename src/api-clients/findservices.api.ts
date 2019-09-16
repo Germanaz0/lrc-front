@@ -85,7 +85,7 @@ export class FindYourServiceApiClient {
      * @param distance
      * @param center
      */
-    listServices = (distance?: number, center?: GeoCenter) => {
+    listServices = (distance?: number | ReactText, center?: GeoCenter) => {
         let lat : number | string | ReactText = 0;
         let lng : number | string | ReactText = 0;
 

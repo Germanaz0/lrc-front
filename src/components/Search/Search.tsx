@@ -5,7 +5,7 @@
  * @author Bortoli German <german@borto.li>
  */
 
-import React, {useState} from 'react';
+import React, {ReactText, useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import ListItems from './components/ListItems';
 import Map from './components/Map';
@@ -20,6 +20,7 @@ import {ServiceType} from "../../api-clients/findservices.api";
 interface SearchProps {
     isLoggedIn: boolean;
     services: ServiceType[];
+    searchText: string | ReactText;
     center: object;
     refreshServices: any;
 }
@@ -69,19 +70,26 @@ export default function Search(props: SearchProps) {
         );
     };
 
+    const searchText = props.searchText.toString();
+    let services = props.services;
+    if (searchText.length > 0) {
+        services = props.services
+            .filter((s) => s.title.toLowerCase().search(props.searchText.toString().toLowerCase()) >= 0);
+    }
+
     return (
         <div className={classes.root}>
             <Grid container spacing={0} className={classes.fullHeight}>
                 <Grid item xs={4} className={classes.listItemContainer}>
                     <ListItems
-                        services={props.services}
+                        services={services}
                         isLoggedIn={props.isLoggedIn}
                         setDeleteService={setDeleteService}
                         editService={setServiceFormValues}
                     />
                 </Grid>
                 <Grid item xs={8}>
-                    <Map center={props.center} services={props.services}/>
+                    <Map center={props.center} services={services}/>
                 </Grid>
             </Grid>
 

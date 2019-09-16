@@ -52,9 +52,9 @@ export default function Map(props: MapProps) {
                 infowindow.open(map, marker);
             });
 
-            const bounds = new google.maps.LatLngBounds();
-            bounds.extend(marker.position);
-            map.fitBounds(bounds);
+            // const bounds = new google.maps.LatLngBounds();
+            // bounds.extend(marker.position);
+            // map.fitBounds(bounds);
         });
 
         //(optional) restore the zoom level after the map is done scaling
@@ -64,10 +64,7 @@ export default function Map(props: MapProps) {
         });
     };
 
-    /**
-     * Generate the map
-     */
-    useEffect(() => {
+    const generateMap = () => {
         map = new google.maps.Map(document.getElementById('services-map'), {
             center: {lat: center.lat, lng: center.lng},
             zoom: 15,
@@ -75,8 +72,21 @@ export default function Map(props: MapProps) {
             disableDefaultUI: true,
         });
 
-        loadMarkers();
-    });
+        setTimeout(() => {
+            loadMarkers();
+        }, 500);
+
+    };
+    /**
+     * Generate the map
+     */
+    useEffect(() => {
+
+        setTimeout(() => {
+            generateMap();
+        }, 500);
+
+    }, [center, props.services]);
 
     return (
         <div className={classes.map} id="services-map">

@@ -28,6 +28,7 @@ export default function Login(props: LoginProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState();
+    const [isLoading, setIsLoading] = useState();
 
     /**
      * Trigger the action to close the modal
@@ -41,6 +42,11 @@ export default function Login(props: LoginProps) {
      * Will call login API and authenticate the user if valid
      */
     const handleLogin = () => {
+        if (isLoading) {
+            return false;
+        }
+
+        setIsLoading(true);
         console.log("Doing login with", email);
         apiClient.login(email, password)
             .then((response) => {
@@ -49,7 +55,9 @@ export default function Login(props: LoginProps) {
                 handleClose();
             }).catch((error) => {
                 setErrors(true);
-            });
+            }).finally(() => {
+                setIsLoading(false);
+        });
     };
 
     /**
@@ -121,7 +129,7 @@ export default function Login(props: LoginProps) {
                         Cancel
                     </Button>
                     <Button onClick={handleLogin} color="primary"
-                            disabled={email.length === 0 || password.length === 0}>
+                            disabled={email.length === 0 || password.length === 0 || isLoading}>
                         Login
                     </Button>
                 </DialogActions>

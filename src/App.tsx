@@ -19,7 +19,7 @@ const App: React.FC = () => {
      * States of the app
      */
     const [appStates, setAppStates] = useState({
-        distance: 0,
+        distance: localStorage.getItem('filter_distance') || 0,
         search: '',
         isLoggedIn: apiClient.isLoggedIn(),
         isLoading: true,
@@ -34,8 +34,8 @@ const App: React.FC = () => {
      * Current user geoposition
      */
     const [geoCenter, setGeoCenter] = useState({
-        lat: localStorage.getItem('center_lat')  || 0,
-        lng: localStorage.getItem('center_lng') || 0,
+        lat: localStorage.getItem('center_lat')  || 40.7347188,
+        lng: localStorage.getItem('center_lng') || -73.9628391,
     });
 
     /**
@@ -76,7 +76,7 @@ const App: React.FC = () => {
     useEffect(() => {
         getCurrentLocation()
             .then((data: GeoPosition) => {
-                setDistance(DEFAULT_DISTANCE.toString());
+                setDistance(localStorage.getItem('filter_distance') || DEFAULT_DISTANCE.toString());
                 localStorage.setItem('center_lat', data.coords.latitude.toString());
                 localStorage.setItem('center_lng', data.coords.longitude.toString());
                 setGeoCenter({lat: data.coords.latitude, lng: data.coords.longitude});
@@ -117,6 +117,7 @@ const App: React.FC = () => {
      */
     const setDistance = (distance: string) => {
         console.log('Setting distance to:', distance);
+        localStorage.setItem('filter_distance', distance.toString());
         setAppStates({...appStates, 'distance': parseInt(distance)});
     };
 
@@ -168,6 +169,7 @@ const App: React.FC = () => {
             <Search
                 isLoggedIn={appStates.isLoggedIn}
                 services={services}
+                searchText={appStates.search}
                 center={geoCenter}
                 refreshServices={updateServicesList}
             />

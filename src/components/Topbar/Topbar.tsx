@@ -5,7 +5,7 @@
  * @author Bortoli German <german@borto.li>
  */
 
-import React from 'react';
+import React, {ReactText} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -21,7 +21,7 @@ import useStyles from './Topbar.styles';
 
 interface TopbarProps {
     isLoggedIn: boolean,
-    distance?: number,
+    distance?: number | ReactText,
     search?: string,
     setDistance?: any,
     handleLogin?: any,
