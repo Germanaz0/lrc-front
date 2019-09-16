@@ -52,6 +52,13 @@ export default function AddService(props: AddServiceProps) {
      */
     useEffect(() => {
         setValues(service);
+
+        if (service) {
+            const lng = _objectGet(service, 'geolocation.coordinates[0]', 0);
+            const lat = _objectGet(service, 'geolocation.coordinates[1]', 0);
+            setGeolocation({lat, lng});
+        }
+
     }, [service]);
 
     if (!service) {
@@ -129,8 +136,16 @@ export default function AddService(props: AddServiceProps) {
     const onAutocompleted = (geoplace: any) => {
         const lat : number = geoplace.geometry.location.lat();
         const lng : number = geoplace.geometry.location.lng();
+
         setGeolocation({lat, lng });
-        const currentState = Object.assign({}, values);
+
+        let currentState = {
+            city: '',
+            state: '',
+            country: '',
+            zip_code: '',
+            address: '',
+        };
 
         const streetParts = {number: '', name: ''};
 
@@ -163,7 +178,13 @@ export default function AddService(props: AddServiceProps) {
 
         currentState['address'] = `${streetParts['name']} ${streetParts['number']}`;
 
-        setValues(currentState);
+        /**
+         * @TODO: Fix this error, we can't set the values because they are the old ones :(
+         */
+
+        // _forEach(currentState, (value: string, name: string) => {
+        //     setValues({...values, ...{[name]: value}});
+        // });
     };
 
     return (
