@@ -72,6 +72,7 @@ export default function App() {
         }
         fetchApi();
         return () => { didCancel = true; };
+        // eslint-disable-next-line
     }, [appStates.distance, geoCenter]);
 
     /**
@@ -88,6 +89,7 @@ export default function App() {
             .catch(() => {
                 // setDistance('0');
             });
+        // eslint-disable-next-line
     }, []);
 
 
