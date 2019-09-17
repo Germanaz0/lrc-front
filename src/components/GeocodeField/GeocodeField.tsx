@@ -37,13 +37,15 @@ export default function GeoCodeField(props: GeoFieldProps) {
         });
     };
 
+    if (anchorEl) {
+        initializeGoogleMapService(anchorEl);
+    }
+
     /**
      * Initialize component
      */
     useEffect(() => {
-        if (anchorEl) {
-            initializeGoogleMapService(anchorEl);
-        }
+
 
         // When umounting will remove listener
         return () => {

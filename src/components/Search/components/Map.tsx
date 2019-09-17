@@ -5,7 +5,7 @@
  * @author Bortoli German <german@borto.li>
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import useStyles from '../Search.styles';
 import {GeoCenter, ServiceType} from "../../../api-clients/findservices.api";
 declare const google: any;
@@ -89,16 +89,14 @@ export default function Map(props: MapProps) {
         }, 500);
 
     };
+
+
     /**
      * Generate the map
      */
-    useEffect(() => {
-
-        setTimeout(() => {
-            generateMap();
-        }, 500);
-
-    }, [center, props.services]);
+    setTimeout(() => {
+        generateMap();
+    }, 1000);
 
     return (
         <div className={classes.map} id="services-map">
