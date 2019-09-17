@@ -1,4 +1,4 @@
-import {deepOrange, purple, green, indigo, red} from "@material-ui/core/colors";
+import {deepOrange, purple, indigo, red} from "@material-ui/core/colors";
 
 export const AppTheme = {
     INDIGO: 'indigo',

@@ -23,8 +23,6 @@ export default function Map(props: MapProps) {
 
     const {center} = props;
     let map: any = null;
-    let centerCircle: any = null;
-    let markers = [];
 
     /**
      * Load markers and set boundaries
@@ -33,13 +31,14 @@ export default function Map(props: MapProps) {
         if (!map) {
             return false;
         }
-        markers = props.services.map((serv: ServiceType) => {
+
+        props.services.forEach((serv: ServiceType) => {
             const mLat = serv.geolocation.coordinates[1];
             const mLng = serv.geolocation.coordinates[0];
 
             const marker = new google.maps.Marker({
                 position: {lat: mLat, lng: mLng},
-                title:"Hello World!"
+                title: "Hello World!"
             });
 
             const infowindow = new google.maps.InfoWindow({
@@ -49,7 +48,7 @@ export default function Map(props: MapProps) {
             // To add the marker to the map, call setMap();
             marker.setMap(map);
 
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(marker, 'click', function () {
                 infowindow.open(map, marker);
             });
 
@@ -67,14 +66,14 @@ export default function Map(props: MapProps) {
 
     const generateMap = () => {
         map = new google.maps.Map(document.getElementById('services-map'), {
-            center,
+            center: {lat: parseFloat(center.lat), lng: parseFloat(center.lng)},
             zoom: 15,
             maptypeId: 'roadmap',
             disableDefaultUI: true,
         });
 
         // Add circle on user current location
-        centerCircle = new google.maps.Circle({
+        new google.maps.Circle({
             strokeColor: '#39d8ff',
             strokeOpacity: 0.8,
             strokeWeight: 2,

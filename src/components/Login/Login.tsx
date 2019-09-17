@@ -16,7 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import apiClient from '../../api-clients/findservices.api';
 import {connect} from 'react-redux';
-import {snackBarHide, snackBarShow} from "../../redux/actions/snackbar.action";
+import {snackBarShow} from "../../redux/actions/snackbar.action";
 import {SnackBarFeedbackType} from "../../redux/action.types";
 
 interface LoginProps {

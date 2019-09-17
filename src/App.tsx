@@ -3,7 +3,8 @@
  *
  * @author Bortoli German <german@borto.li>
  */
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location';
 import apiClient from './api-clients/findservices.api';
 import Topbar from './components/Topbar/Topbar';
@@ -157,6 +158,20 @@ export default function App() {
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(event.target.value);
     };
+
+    // Add a response interceptor
+    axios.interceptors.response.use(function (response) {
+        // Do something with response data
+        return response;
+    }, function (error) {
+        if (error.response.status === 401) {
+            apiClient.clearSession();
+            setLoggedIn(false);
+            setTimeout(() => document.location.reload(), 100);
+        }
+        // Do something with response error
+        return Promise.reject(error);
+    });
 
     const muiTheme = createMuiTheme(appThemeOptions[OPTION_THEME]);
     return (

@@ -52,7 +52,7 @@ export default function GeoCodeField(props: GeoFieldProps) {
             }
         }
 
-    }, [anchorEl]);
+    }, [anchorEl, autocompleteListener]);
 
     return (
         <TextField

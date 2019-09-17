@@ -7,7 +7,6 @@
 import {
     SNACKBAR_SHOW,
     SNACKBAR_HIDE,
-    SnackBarActionType,
     SnackBarFeedbackType,
 } from '../action.types';
 
