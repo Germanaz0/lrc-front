@@ -24,6 +24,9 @@ export default function Map(props: MapProps) {
     const {center} = props;
     let map: any = null;
 
+    center.lat = parseFloat(center.lat);
+    center.lng = parseFloat(center.lng);
+
     /**
      * Load markers and set boundaries
      */
@@ -66,7 +69,7 @@ export default function Map(props: MapProps) {
 
     const generateMap = () => {
         map = new google.maps.Map(document.getElementById('services-map'), {
-            center: {lat: parseFloat(center.lat), lng: parseFloat(center.lng)},
+            center,
             zoom: 15,
             maptypeId: 'roadmap',
             disableDefaultUI: true,

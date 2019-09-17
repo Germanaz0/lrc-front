@@ -48,6 +48,17 @@ export default function App() {
     const [loginOpen, setLoginOpen] = useState(false);
 
     /**
+     * Validate authenticated user.
+     */
+    useEffect(() => {
+        if (apiClient.isLoggedIn()) {
+            apiClient.me()
+                .then(() => {console.log("User token has been validated")})
+                .catch(() => {console.warn("Client with wrong token")});
+        }
+    }, []);
+
+    /**
      * Fetch services from API
      */
     const refreshServices = () => {

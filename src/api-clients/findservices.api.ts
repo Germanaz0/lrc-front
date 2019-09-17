@@ -118,6 +118,15 @@ export class FindYourServiceApiClient {
     };
 
     /**
+     * Get logged-in user data
+     */
+    me = () => {
+        //auth/logout
+        return axios.get(`${API_URL}auth/me`,{
+            headers: this.getLoggedInHeaders(),
+        })
+    };
+    /**
      * Delete a service action
      * @param service
      */
