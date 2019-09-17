@@ -62,9 +62,9 @@ export class FindYourServiceApiClient {
      * Main constructor
      */
     constructor() {
-        this.auth.access_token = localStorage.getItem('access_token');
-        this.auth.expires_at = localStorage.getItem('expires_at');
-        this.auth.token_type = localStorage.getItem('token_type');
+        this.auth.access_token = localStorage.getItem('lrc.access_token');
+        this.auth.expires_at = localStorage.getItem('lrc.expires_at');
+        this.auth.token_type = localStorage.getItem('lrc.token_type');
     }
 
     /**
@@ -177,9 +177,9 @@ export class FindYourServiceApiClient {
      * @param response
      */
     storeSession = (response: any) => {
-        localStorage.setItem('access_token', response.data.access_token);
-        localStorage.setItem('expires_at', response.data.expires_at);
-        localStorage.setItem('token_type', response.data.token_type);
+        localStorage.setItem('lrc.access_token', response.data.access_token);
+        localStorage.setItem('lrc.expires_at', response.data.expires_at);
+        localStorage.setItem('lrc.token_type', response.data.token_type);
 
         this.auth.access_token = response.data.access_token;
         this.auth.expires_at = response.data.expires_at;
@@ -190,9 +190,9 @@ export class FindYourServiceApiClient {
      * Clear browser session
      */
     clearSession = () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('expires_at');
-        localStorage.removeItem('token_type');
+        localStorage.removeItem('lrc.access_token');
+        localStorage.removeItem('lrc.expires_at');
+        localStorage.removeItem('lrc.token_type');
 
         this.auth.access_token = null;
         this.auth.expires_at = null;
