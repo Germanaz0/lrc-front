@@ -23,6 +23,7 @@ interface SearchProps {
     searchText: string | ReactText;
     center: object;
     refreshServices: any;
+    isLoading?: boolean;
 }
 
 /**
@@ -84,6 +85,7 @@ export default function Search(props: SearchProps) {
                     <ListItems
                         services={services}
                         isLoggedIn={props.isLoggedIn}
+                        isLoading={props.isLoading}
                         setDeleteService={setDeleteService}
                         editService={setServiceFormValues}
                     />
