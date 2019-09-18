@@ -3,7 +3,7 @@
  *
  * @author Bortoli German <german@borto.li>
  */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import {getCurrentLocation, GeoPosition} from './api-clients/navigator-location';
 import apiClient from './api-clients/findservices.api';
@@ -17,6 +17,20 @@ import AppSnackbar from "./components/AppSnackBar/AppSnackBar";
 const DEFAULT_DISTANCE = process.env.REACT_APP_DEFAULT_DISTANCE || 10;
 const OPTION_THEME = process.env.REACT_APP_THEME || 'blue';
 
+function usePrevious(value: any) {
+    // The ref object is a generic container whose current property is mutable ...
+    // ... and can hold any value, similar to an instance property on a class
+    const ref = useRef();
+
+    // Store current value in ref
+    useEffect(() => {
+        ref.current = value;
+    }, [value]); // Only re-run if value changes
+
+    // Return previous value (happens before update in useEffect above)
+    return ref.current;
+}
+
 export default function App() {
 
     /**
@@ -25,14 +39,15 @@ export default function App() {
     const [appStates, setAppStates] = useState({
         distance: localStorage.getItem('filter_distance') || 0,
         search: '',
-        isLoggedIn: apiClient.isLoggedIn(),
-        isLoading: true,
     });
 
+    const prevAppState = usePrevious(appStates);
     /**
      * Service array, fetched from the api
      */
     const [services, setServices] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(apiClient.isLoggedIn());
 
     /**
      * Current user geoposition
@@ -41,6 +56,8 @@ export default function App() {
         lat: localStorage.getItem('center_lat')  || 40.7347188,
         lng: localStorage.getItem('center_lng') || -73.9628391,
     });
+
+    const prevGeoCenter = usePrevious(geoCenter);
 
     /**
      * Login status
@@ -74,8 +91,15 @@ export default function App() {
      */
     useEffect(() => {
         let didCancel = false;
+
+        let positionChanged = prevGeoCenter !== geoCenter;
+        let distanceChanged = prevAppState !== appStates;
+
+        console.log('Position changed:', positionChanged, 'Distance changed:', distanceChanged);
         async function fetchApi() {
+            setIsLoading(true);
             const response = await refreshServices();
+            setIsLoading(false);
             if (!didCancel) {
                 setServices(response);
                 console.log("Fetched services with distance", appStates.distance);
@@ -98,7 +122,7 @@ export default function App() {
                 setGeoCenter({lat: data.coords.latitude, lng: data.coords.longitude});
             })
             .catch(() => {
-                // setDistance('0');
+                console.warn('Error fetching services')
             });
         // eslint-disable-next-line
     }, []);
@@ -147,14 +171,6 @@ export default function App() {
         setAppStates({...appStates, search});
     };
 
-    /**
-     * Set logged in status
-     * @param isLoggedIn
-     */
-    const setLoggedIn = (isLoggedIn: boolean) => {
-        console.log('Setting login status:', isLoggedIn);
-        setAppStates({...appStates, isLoggedIn});
-    };
 
     /**
      * Will search by distance
@@ -190,7 +206,7 @@ export default function App() {
     return (
         <MuiThemeProvider theme={muiTheme}>
             <Topbar
-                isLoggedIn={appStates.isLoggedIn}
+                isLoggedIn={loggedIn}
                 distance={appStates.distance}
                 handleLogin={handleLogin}
                 handleLogout={handleLogout}
@@ -199,7 +215,8 @@ export default function App() {
             />
 
             <Search
-                isLoggedIn={appStates.isLoggedIn}
+                isLoggedIn={loggedIn}
+                isLoading={isLoading}
                 services={services}
                 searchText={appStates.search}
                 center={geoCenter}

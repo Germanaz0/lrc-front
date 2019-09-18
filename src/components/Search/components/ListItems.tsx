@@ -14,12 +14,15 @@ import Typography from '@material-ui/core/Typography';
 import {ServiceType} from "../../../api-clients/findservices.api";
 
 import useStyles from '../Search.styles';
+import {LinearProgress} from "@material-ui/core";
+const isEmpty = require('lodash/isEmpty');
 
 interface ListItemsProps {
     services: object[];
     isLoggedIn: boolean;
     setDeleteService: any;
     editService: any;
+    isLoading?: boolean;
 }
 /**
  * List items class
@@ -73,8 +76,36 @@ export default function ListItems(props: ListItemsProps) {
 
     const services = props.services.map(service => renderServiceItem(service));
 
+    /**
+     * Add service loader
+     */
+    const renderLoader = () => {
+        if (!props.isLoading) {
+            return null;
+        }
+
+        return (<LinearProgress style={{marginRight: 5}}/>);
+    };
+
+    /**
+     * Show empty content
+     */
+    const renderEmptyContent = () => {
+        if (!isEmpty(services)) {
+            return null;
+        }
+
+        if (props.isLoading) {
+            return null;
+        }
+
+        return (<Typography>There are no services near your location.</Typography>);
+    };
+
     return (
         <Fragment>
+            {renderLoader()}
+            {renderEmptyContent()}
             {services}
         </Fragment>
     );
