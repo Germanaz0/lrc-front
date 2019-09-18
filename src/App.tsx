@@ -116,13 +116,14 @@ export default function App() {
     useEffect(() => {
         getCurrentLocation()
             .then((data: GeoPosition) => {
+                console.log("Retrieved user location");
                 setDistance(localStorage.getItem('filter_distance') || DEFAULT_DISTANCE.toString());
                 localStorage.setItem('center_lat', data.coords.latitude.toString());
                 localStorage.setItem('center_lng', data.coords.longitude.toString());
                 setGeoCenter({lat: data.coords.latitude, lng: data.coords.longitude});
             })
             .catch(() => {
-                console.warn('Error fetching services')
+                console.warn('Error fetching current location')
             });
         // eslint-disable-next-line
     }, []);
